@@ -1,0 +1,19 @@
+.btn {
+  border: none;
+  color: black;
+  background-color: white;
+  font-family: var(--font-ibm);
+  padding: 1rem 1.6rem;
+  border-radius: 1.2rem;
+  cursor: pointer;
+  transition: 0.3s color ease-in-out, background-color 0.3s ease,
+    0.3s transform ease-in-out;
+  text-decoration: none;
+}
+.btn:hover {
+  background-color: black;
+  transform: scale(1.06);
+  color: white;
+  padding: calc(1rem - 1px) calc(1.6rem - 1px);
+  border: 1px solid white;
+}

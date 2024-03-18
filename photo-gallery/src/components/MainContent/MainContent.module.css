@@ -1,0 +1,37 @@
+.tabs {
+  display: flex;
+  justify-content: center;
+}
+.mainContent {
+  overflow: hidden;
+  margin: 2rem auto;
+  padding: 2rem;
+  height: 100%;
+  max-width: 100rem;
+  width: 100%;
+}
+.masonry {
+  display: flex;
+  gap: 1.6rem;
+}
+.overlayContainer {
+  position: relative;
+}
+.masonry img {
+  width: 100%;
+  height: auto;
+  margin: 0.6rem 0;
+}
+
+.overlay {
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+.overlay:hover {
+  background: none;
+}

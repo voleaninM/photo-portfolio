@@ -1,0 +1,19 @@
+.tab {
+  font-family: var(--font-irm);
+  border: none;
+  background: transparent;
+  color: var(--color-light-grey);
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 2.2rem;
+  font-weight: 700;
+  padding: 1rem;
+  transition: 0.3s ease-in;
+}
+.tab.active {
+  color: white;
+}
+.tab:hover {
+  transform: scale(1.05);
+  color: white;
+}

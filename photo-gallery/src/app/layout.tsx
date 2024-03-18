@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import "@/styles/globals.css";
+import "@/styles/colors.css";
 import Header from "@/components/Header/Header";
-
+import Footer from "@/components/Footer/Footer";
+import styles from "./layout.module.css";
+import Image from "next/image";
+import background from "../../public/photographer.jpg";
 const ibm = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -21,10 +25,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${ibm.className} ${ibm.variable}`}>
-      <body>
+      <body className={styles.body}>
+        <Image
+          alt="background"
+          src={background}
+          className={styles.bgImage}
+          placeholder="blur"
+        />
         <Header />
-        {children}
-        footer
+        <main className={styles.main}>{children}</main>
+        <Footer />
       </body>
     </html>
   );

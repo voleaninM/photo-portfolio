@@ -1,6 +1,7 @@
 "use client";
 import React, { ReactNode } from "react";
 import styles from "./Button.module.css";
+import Link from "next/link";
 type PropsT = {
   children: ReactNode;
   additionalStyles?: string;
@@ -16,9 +17,9 @@ export default function Button({
 }: PropsT) {
   const buttonClasses = `${styles.btn} ${additionalStyles}`;
   return type === "link" ? (
-    <a href="#" className={buttonClasses}>
+    <Link href="#" className={buttonClasses}>
       {children}
-    </a>
+    </Link>
   ) : (
     <button onClick={onClick} className={buttonClasses}>
       {children}

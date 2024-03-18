@@ -15,7 +15,4 @@ body {
   font-size: 1.6rem;
   color: white;
   height: 100%;
-  background-image: url("/photographer.jpg");
-  background-position: top;
-  background-size: cover;
 }

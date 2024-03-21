@@ -14,13 +14,19 @@ const tabs = [
 ];
 
 const breakpointColumnsObj = {
-  default: 2,
+  default: 3,
+  1200: 2,
   700: 1,
 };
 
 type MainContentPropsT = {
-  images: PhotoT[];
+  images: {
+    all: PhotoT[];
+    oceans: PhotoT[];
+    forests: PhotoT[];
+  };
 };
+type TabType = keyof MainContentPropsT["images"];
 
 export default function MainContent({ images }: MainContentPropsT) {
   const [tab, setTab] = useState("all");
@@ -40,7 +46,7 @@ export default function MainContent({ images }: MainContentPropsT) {
           className={styles.masonry}
           columnClassName=""
         >
-          {images.map((image, index) => (
+          {images[tab as TabType].map((image, index) => (
             <div className={styles.overlayContainer} key={image.src}>
               <Image
                 src={image.src}
@@ -49,9 +55,7 @@ export default function MainContent({ images }: MainContentPropsT) {
                 height={image.height}
                 blurDataURL={image.blurImage}
                 placeholder="blur"
-                sizes="(max-width: 700px) 100vw,
-(max-width: 1280px) 50vw,
-(max-width: 140px) 33vw"
+                sizes="(min-width: 1220px) 309px, (min-width: 1060px) 472px, (min-width: 720px) calc(43.75vw + 17px), (min-width: 340px) calc(100vw - 40px), calc(1020vw - 2984px)"
               />
               <div className={styles.overlay}></div>
             </div>

@@ -5,4 +5,5 @@ export type PhotoT = {
   height: number;
   alt: string;
   blurImage: string;
+  likes: number;
 };

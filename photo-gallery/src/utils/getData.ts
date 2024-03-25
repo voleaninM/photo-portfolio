@@ -1,11 +1,20 @@
 import { PhotoT } from "@/types/PhotoT";
-import lqipModern from "lqip-modern";
+import { getPlaiceholder } from "plaiceholder";
 import { createApi } from "unsplash-js";
 import * as nodeFetch from "node-fetch";
-async function makeBlurImg(src: string): Promise<string> {
-  const image = await fetch(src);
-  const imageBuffer = Buffer.from(await image.arrayBuffer());
-  return (await lqipModern(imageBuffer)).metadata.dataURIBase64;
+async function getBase64(src: string): Promise<string> {
+  try {
+    const res = await fetch(src);
+    if (!res.ok) {
+      throw new Error(`Failed to fetch image ${res.status} ${res.statusText}`);
+    }
+    const imageBuffer = Buffer.from(await res.arrayBuffer());
+    const { base64 } = await getPlaiceholder(imageBuffer);
+
+    return base64;
+  } catch (error) {
+    return String(error);
+  }
 }
 export async function getData(query: string): Promise<PhotoT[]> {
   const unsplash = createApi({
@@ -15,7 +24,7 @@ export async function getData(query: string): Promise<PhotoT[]> {
   try {
     const images = await unsplash.photos.getRandom({
       query,
-      count: 3,
+      count: 10,
     });
 
     if (images.type !== "success") {
@@ -28,7 +37,7 @@ export async function getData(query: string): Promise<PhotoT[]> {
       : [images.response];
 
     const imagePromises = responseArr.map((image) =>
-      makeBlurImg(image.urls.full)
+      getBase64(image.urls.full)
     );
 
     const blurImages = await Promise.all(imagePromises);

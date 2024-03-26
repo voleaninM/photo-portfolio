@@ -1,5 +1,6 @@
 import MainContent from "@/components/MainContent/MainContent";
 import { getData } from "@/utils/getData";
+export const dynamic = "force-dynamic";
 export default async function Home() {
   const [forests, oceans] = await Promise.all([
     await getData("forests"),

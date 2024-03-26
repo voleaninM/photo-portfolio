@@ -1,6 +1,7 @@
 import { PhotoT } from "@/types/PhotoT";
 import { getPlaiceholder } from "plaiceholder";
-import { Random } from "unsplash-js/dist/methods/photos/types";
+import { createApi } from "unsplash-js";
+import * as nodeFetch from "node-fetch";
 async function getBase64(src: string): Promise<string> {
   try {
     const res = await fetch(src);
@@ -16,17 +17,24 @@ async function getBase64(src: string): Promise<string> {
   }
 }
 export async function getData(query: string): Promise<PhotoT[]> {
+  const unsplash = createApi({
+    accessKey: process.env.ACCESS_KEY!,
+    fetch: nodeFetch.default as unknown as typeof fetch,
+  });
   try {
-    const resp = await fetch(
-      `https://api.unsplash.com/photos/random?query=${query}&count=3&client_id=${process.env.ACCESS_KEY}`,
-      { next: { revalidate: 10 } }
-    );
-    const images: Random | Random[] | { errors: string[] } = await resp.json();
+    const images = await unsplash.photos.getRandom({
+      query,
+      count: 10,
+    });
 
-    if ("errors" in images) {
+    if (images.type !== "success") {
       throw new Error(images.errors[0]);
+    } else if (!images.response) {
+      throw new Error("No data on this address");
     }
-    const responseArr = Array.isArray(images) ? images : [images];
+    const responseArr = Array.isArray(images.response)
+      ? images.response
+      : [images.response];
 
     const imagePromises = responseArr.map((image) =>
       getBase64(image.urls.full)

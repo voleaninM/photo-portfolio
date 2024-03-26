@@ -40,7 +40,6 @@ export default function MainContent({ images }: MainContentPropsT) {
         currentTab={tab}
       />
       <div className={styles.mainContent}>
-        {tab}
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className={styles.masonry}

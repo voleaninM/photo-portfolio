@@ -1,7 +1,6 @@
 import { PhotoT } from "@/types/PhotoT";
 import { getPlaiceholder } from "plaiceholder";
-import { createApi } from "unsplash-js";
-import * as nodeFetch from "node-fetch";
+import { Random } from "unsplash-js/dist/methods/photos/types";
 async function getBase64(src: string): Promise<string> {
   try {
     const res = await fetch(src);
@@ -17,24 +16,17 @@ async function getBase64(src: string): Promise<string> {
   }
 }
 export async function getData(query: string): Promise<PhotoT[]> {
-  const unsplash = createApi({
-    accessKey: process.env.ACCESS_KEY!,
-    fetch: nodeFetch.default as unknown as typeof fetch,
-  });
   try {
-    const images = await unsplash.photos.getRandom({
-      query,
-      count: 10,
-    });
+    const resp = await fetch(
+      `https://api.unsplash.com/photos/random?query=${query}&count=3&client_id=${process.env.ACCESS_KEY}`,
+      { next: { revalidate: 10 } }
+    );
+    const images: Random | Random[] | { errors: string[] } = await resp.json();
 
-    if (images.type !== "success") {
+    if ("errors" in images) {
       throw new Error(images.errors[0]);
-    } else if (!images.response) {
-      throw new Error("No data on this address");
     }
-    const responseArr = Array.isArray(images.response)
-      ? images.response
-      : [images.response];
+    const responseArr = Array.isArray(images) ? images : [images];
 
     const imagePromises = responseArr.map((image) =>
       getBase64(image.urls.full)
@@ -43,7 +35,7 @@ export async function getData(query: string): Promise<PhotoT[]> {
     const blurImages = await Promise.all(imagePromises);
     return responseArr.map((image, index) => ({
       src: image.urls.full,
-      thumb: image.urls.full,
+      thumb: image.urls.thumb,
       width: image.width,
       height: image.height,
       alt: image.alt_description || "picture",
@@ -51,6 +43,19 @@ export async function getData(query: string): Promise<PhotoT[]> {
       likes: image.likes,
     }));
   } catch (error) {
-    throw new Error(String(error));
+    let message: string;
+    if (error instanceof Error) {
+      message = error.message;
+    } else if (error && typeof error === "object" && "message" in error) {
+      message = String(error.message);
+    } else if (typeof error === "string") {
+      message = error;
+    } else {
+      message = "Unknown error";
+    }
+    if (message === "expected JSON response from server.") {
+      message = "Exceeded limit of requests. Try again later.";
+    }
+    throw new Error(message);
   }
 }

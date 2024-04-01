@@ -16,7 +16,7 @@ async function getBase64(src: string): Promise<string> {
     return String(error);
   }
 }
-export async function getData(query: string): Promise<PhotoT[]> {
+export async function getData(query?: string): Promise<PhotoT[]> {
   const unsplash = createApi({
     accessKey: process.env.ACCESS_KEY!,
     fetch: nodeFetch.default as unknown as typeof fetch,
@@ -24,7 +24,7 @@ export async function getData(query: string): Promise<PhotoT[]> {
   try {
     const images = await unsplash.photos.getRandom({
       query,
-      count: 10,
+      count: 5,
     });
 
     if (images.type !== "success") {

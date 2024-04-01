@@ -7,6 +7,7 @@ import Footer from "@/components/Footer/Footer";
 import styles from "./layout.module.css";
 import Image from "next/image";
 import background from "../../public/photographer.jpg";
+import Search from "@/components/Search/Search";
 const ibm = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "700"],
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
   title: "Photo Gallery by Max",
   description: "It can be your photos on here!",
 };
+
+export const revalidate = 1800;
 
 export default function RootLayout({
   children,
@@ -33,7 +36,11 @@ export default function RootLayout({
           placeholder="blur"
         />
         <Header />
-        <main className={styles.main}>{children}</main>
+
+        <main className={styles.main}>
+          <Search />
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

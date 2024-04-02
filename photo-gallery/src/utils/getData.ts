@@ -36,18 +36,18 @@ export async function getData(query?: string): Promise<PhotoT[]> {
       ? images.response
       : [images.response];
 
-    const imagePromises = responseArr.map((image) =>
-      getBase64(image.urls.full)
-    );
+    // const imagePromises = responseArr.map((image) =>
+    //   getBase64(image.urls.full)
+    // );
 
-    const blurImages = await Promise.all(imagePromises);
+    // const blurImages = await Promise.all(imagePromises);
     return responseArr.map((image, index) => ({
       src: image.urls.full,
       thumb: image.urls.thumb,
       width: image.width,
       height: image.height,
       alt: image.alt_description || "picture",
-      blurImage: blurImages[index],
+      // blurImage: blurImages[index],
       likes: image.likes,
     }));
   } catch (error) {

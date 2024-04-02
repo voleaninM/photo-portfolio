@@ -61,7 +61,10 @@ export async function getData(query?: string): Promise<PhotoT[]> {
     } else {
       message = "Unknown error";
     }
-    if (message === "expected JSON response from server.") {
+    if (
+      message === "expected JSON response from server." ||
+      message.startsWith("An error occurred in the Server Components render")
+    ) {
       message = "Exceeded limit of requests. Try again later.";
     }
     throw new Error(message);

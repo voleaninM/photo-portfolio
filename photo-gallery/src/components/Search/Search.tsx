@@ -2,6 +2,7 @@
 import { FormEvent, useState } from "react";
 import styles from "./Searc.module.css";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Search() {
   const [search, setSearch] = useState("");
@@ -21,7 +22,7 @@ export default function Search() {
         onChange={(e) => setSearch(e.target.value)}
       />
       <button className={styles.btn} type="submit">
-        <img src="/search.svg" alt="search" className={styles.icon} />
+        <Image src="/search.svg" alt="search" width={30} height={30} />
       </button>
     </form>
   );

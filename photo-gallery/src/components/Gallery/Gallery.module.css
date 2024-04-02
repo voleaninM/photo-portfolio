@@ -5,7 +5,7 @@
 .overlayContainer {
   position: relative;
 }
-.masonry img {
+.galleryImage {
   width: 100%;
   height: auto;
   margin: 0.6rem 0;
@@ -19,7 +19,20 @@
   top: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: end;
 }
 .overlay:hover {
   background: none;
+}
+.likes {
+  font-size: 2.4rem;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+.likes img path {
+  fill: white;
 }

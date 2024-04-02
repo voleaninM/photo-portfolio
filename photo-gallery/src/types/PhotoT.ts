@@ -4,6 +4,6 @@ export type PhotoT = {
   width: number;
   height: number;
   alt: string;
-  blurImage: string;
+
   likes: number;
 };

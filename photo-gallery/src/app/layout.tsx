@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "It can be your photos on here!",
 };
 
-export const revalidate = 1800;
+export const revalidate = 10;
 
 export default function RootLayout({
   children,
